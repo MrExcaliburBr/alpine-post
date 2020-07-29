@@ -34,7 +34,7 @@
 	      ;;
         y|Y ) apk add xf86-video-vboxvideo virtualbox-guest-additions virtualbox-guest-modules-virt virtualbox-guest-additions-openrc xf86-input-synaptics xf86-video-vesa
     	      echo vboxpci >> /etc/modules
-              echo vboxdrv >> /etc/modules
+	      echo vboxdrv >> /etc/modules
               echo vboxnetflt >> /etc/modules
               rc-update add virtualbox-guest-additions default
     	      apk upgrade --update-cache --available
@@ -89,7 +89,7 @@
     mv voidrice/config/* .config
     
     #Goodies
-    doas apk add sxiv nnn youtube-dl cmus xrandr dunst sxhkd xbacklight tlp unclutter-xfixes slock scrot tmux task transmission weechat python3 zathura zathura-pdf-poppler mpv fzf gnupg pass newsboat tuir htop redshift 
+    doas apk add sxiv nnn youtube-dl cmus xrandr dunst sxhkd xbacklight tlp unclutter-xfixes slock scrot tmux task transmission weechat python3 zathura zathura-pdf-poppler mpv fzf gnupg pass newsboat tuir htop redshift bash
     
     #My scripts
     mkdir code/scripts
@@ -101,24 +101,46 @@
     
     ##Directories
     rm -rf .config/suckless/*
-    mkdir .config/suckless/dwm 
-    mkdir .config/suckless/st
+    mkdir .config/suckless/dwm-flexipatch
+    mkdir .config/suckless/st-flexipatch
     mkdir .config/suckless/dmenu
     
     ##dwm
-    git clone https://github.com/MrExcaliburBr/my-dwm .config/suckless/dwm
+    git clone https://github.com/bakkeby/flexipatch-finalizer
+    mv flexipatch-finalizer/flexipatch-finalizer.sh .
+    rm -rf flexipatch-finalizer
+    git clone https://github.com/bakkeby/dwm-flexipatch .config/suckless/dwm-flexipatch
+    mv alpine-post/patches/dwm-patches alpine-post/patches/patches.def.h 
+    mv alpine-post/patches/patches.def.h .config/suckless/dwm-flexipatch
+    cd .config/suckless/dwm-flexipatch
+    doas make install
+    cd /home/zezin
+    ./flexipatch-finalizer.sh -r -d .config/suckless/dwm-flexipatch -o .config/suckless/dwm
+    mv alpine-post/patches/dwm-diff.diff .config/suckless/dwm
     cd .config/suckless/dwm
+    doas make install 
+    patch < dwm-diff.diff
     doas make install
     cd /home/zezin
     
     ##st
-    git clone https://github.com/MrExcaliburBr/my-st .config/suckless/st
-    cd .config/suckless/st
+    git clone https://github.com/bakkeby/st-flexipatch .config/suckless/st-flexipatch
+    mv alpine-post/patches/st-patches alpine-post/patches/patches.def.h 
+    mv alpine-post/patches/patches.def.h .config/suckless/st-flexipatch
+    cd .config/suckless/st-flexipatch
+    doas make install
+    cd /home/zezin
+    ./flexipatch-finalizer.sh -r -d .config/suckless/st-flexipatch -o .config/suckless/st
+    mv alpine-post/patches/st-diff.diff .config/suckless/st
+    cd .config/suckless/dwm
+    doas make install
+    patch < st-diff.diff
     doas make install
     cd /home/zezin
     
     ##dmenu 
-    git clone https://github.com/MrExcaliburBr/my-dmenu .config/suckless/dmenu
+    git clone https://git.suckless.org/dmenu .config/suckless/dmenu
+    mv alpine-post/patches/dmenu-diff.diff
     cd .config/suckless/dmenu
     doas make install
     cd /home/zezin
@@ -143,12 +165,12 @@
    # ./Build install
    # cd /home/zezin
     
-    #oh-my-zsh
-    curl -Lo install.sh https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-    doas ZSH=~/.config/oh-my-zsh RUNZSH='no' ./install.sh --keep-zshrc
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git .config/oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-    git clone https://github.com/softmoth/zsh-vim-mode .config/oh-my-zsh/custom/plugins/zsh-vim-mode
-    #TODO Clean home directory 
-    apk upgrade --update-cache --available
-
+   # #oh-my-zsh
+   # curl -Lo install.sh https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+   # doas ZSH=~/.config/oh-my-zsh RUNZSH='no' ./install.sh --keep-zshrc
+   # git clone https://github.com/zsh-users/zsh-syntax-highlighting.git .config/oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+   # git clone https://github.com/softmoth/zsh-vim-mode .config/oh-my-zsh/custom/plugins/zsh-vim-mode
+   # #TODO Clean home directory 
+    doas apk upgrade --update-cache --available
+    rm -rf voidrice
     }
