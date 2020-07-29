@@ -71,7 +71,7 @@ su zezin -c "mv zshrc .zshrc"
 su zezin -c "mv voidrice/config/* .config"
 
 #Goodies
-su zezin -c "doas apk add sxiv nnn youtube-dl cmus xrandr qutebrowser dunst sxhkd xbacklight tlp unclutter-xfixes slock scrot tmux task transmission weechat python3 zathura zathura-pdf-poppler mpv fzf gnupg pass newsboat tuir htop redshift "
+su zezin -c "doas apk add sxiv nnn youtube-dl cmus xrandr dunst sxhkd xbacklight tlp unclutter-xfixes slock scrot tmux task transmission weechat python3 zathura zathura-pdf-poppler mpv fzf gnupg pass newsboat tuir htop redshift "
 su zezin -c "doas rc-update add dbus"
 dbus-uuidgen > /var/lib/dbus/machine-id
 
