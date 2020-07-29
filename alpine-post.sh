@@ -44,6 +44,7 @@
     #doas config
     echo "permit zezin as root" >> /etc/doas.conf
     echo "permit persist zezin" >> /etc/doas.conf
+    mv alpine-post /home/zezin/
 }
 
 #Nescessary directories
