@@ -33,8 +33,8 @@
 adduser  zezin
 
 #doas config
-cat "permit zezin as root" >> /etc/doas.conf
-cat "permit persist zezin" >> /etc/doas.conf
+echo "permit zezin as root" >> /etc/doas.conf
+echo "permit persist zezin" >> /etc/doas.conf
 
 #Nescessary directories
 #TODO tirar os su zezin -c e dividir o script --root e --user (talvez, depois desse teste )
