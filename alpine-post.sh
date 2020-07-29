@@ -1,4 +1,13 @@
 #!/bin/sh
+
+[[ -z "$1" ]] && echo "--user or --root"
+
+[ $1 = "--root" ] && {
+    [[ $(id -u) != 0 ]] && {
+        printf "Only for 'root'.\n" "%s"
+        exit 1
+    }
+
     #Uncomment all repos, so you would be abble to use main,testing and comunity repos
     sed -i 's/#http/http/g' /etc/apk/repositories
     apk update
@@ -16,8 +25,8 @@
     rc-service alsa start
     
     #Extra stuff for VMs
-    read -p "Are you in a VM? [y/N]" virt
-    case "$virt" in
+    read -p Are you in a VM? [y/N] virt
+    case $virt in
         n|N ) rc-update delete dhcpcd default
 	      rc-update add NetworkManager
 	      ;;
@@ -30,106 +39,112 @@
     	      ;;
     esac
     
-adduser  zezin
+    adduser  zezin
 
-#doas config
-echo "permit zezin as root" >> /etc/doas.conf
-echo "permit persist zezin" >> /etc/doas.conf
+    #doas config
+    echo "permit zezin as root" >> /etc/doas.conf
+    echo "permit persist zezin" >> /etc/doas.conf
+}
 
 #Nescessary directories
 #TODO tirar os su zezin -c e dividir o script --root e --user (talvez, depois desse teste )
 
-su zezin -c "cd /home/zezin"
-su zezin -c "mkdir ~/.local"
-su zezin -c "mkdir ~/.local/share/"
-su zezin -c "mkdir ~/.cache"
-su zezin -c "mkdir ~/pix"
-su zezin -c "mkdir ~/pix/scrot"
-su zezin -c "mkdir ~/dl"
-su zezin -c "mkdir ~/code"
-su zezin -c "mkdir ~/dox"
-su zezin -c "mkdir ~/music"
-su zezin -c "mkdir ~/.config"
- 
-# ~/ cleanup
-su zezin -c "mkdir ~/.local/share/task"
-su zezin -c "touch ~/.local/share/taskrc"
-su zezin -c "mkdir ~/.config/less"
-su zezin -c "touch ~/.config/less/lesskey"
-su zezin -c "mkdir ~/.config/readline"
-su zezin -c "touch ~/.config/readline/inputrc"
-su zezin -c "mkdir ~/.local/share/zsh/"
-su zezin -c "touch ~/.local/share/zsh/history"
-su zezin -c "mkdir ~/.local/share/gnupg"
-su zezin -c "mkdir ~/.local/share/pass" 
-
-#Configs
-su zezin -c "git clone https://github.com/MrExcaliburBr/voidrice"
-su zezin -c "mv voidrice/zshrc ."
-su zezin -c "doas mv voidrice/xinitrc /etc/X11/xinit/"
-su zezin -c "mv zshrc .zshrc"
-su zezin -c "mv voidrice/config/* .config"
-
-#Goodies
-su zezin -c "doas apk add sxiv nnn youtube-dl cmus xrandr dunst sxhkd xbacklight tlp unclutter-xfixes slock scrot tmux task transmission weechat python3 zathura zathura-pdf-poppler mpv fzf gnupg pass newsboat tuir htop redshift "
-su zezin -c "doas rc-update add dbus"
-dbus-uuidgen > /var/lib/dbus/machine-id
-
-#My scripts
-su zezin -c "mkdir code/scripts"
-su zezin -c "git clone https://github.com/MrExcaliburBr/scripts code/scripts"
-
-#Suckless software 
-##Dependencies
-su zezin -c "doas apk add tcc libx11-dev libxft-dev libxinerama-dev ncurses dbus-x11 freetype-dev gcc g++"
-su zezin -c "doas apk del gcc g++"
-
-##Directories
-su zezin -c "rm -rf .config/suckless/*"
-su zezin -c "mkdir .config/suckless/dwm" 
-su zezin -c "mkdir .config/suckless/st"
-su zezin -c "mkdir .config/suckless/dmenu"
-
-##dwm
-su zezin -c "git clone https://github.com/MrExcaliburBr/my-dwm .config/suckless/dwm"
-su zezin -c "cd .config/suckless/dwm"
-su zezin -c "doas make install CC=tcc"
-su zezin -c "cd /home/zezin"
-
-##st
-su zezin -c "git clone https://github.com/MrExcaliburBr/my-st .config/suckless/st"
-su zezin -c "cd .config/suckless/st"
-su zezin -c "doas make install CC=tcc"
-su zezin -c "cd /home/zezin"
-
-##dmenu 
-su zezin -c "git clone https://github.com/MrExcaliburBr/my-dmenu .config/suckless/dmenu"
-su zezin -c "cd .config/suckless/dmenu"
-su zezin -c "doas make install CC=tcc"
-su zezin -c "cd /home/zezin"
-
-#tremc (transmission client)
-su zezin -c "mkdir .config/gitstuff"
-su zezin -c "mkdir .config/gitstuff/tremc"
-su zezin -c "git clone https://github.com/tremc/tremc .config/gitstuff/tremc"
-su zezin -c "cd tremc"
-su zezin -c "doas make install"
-su zezin -c "cd /home/zezin"
-
-#straw-viewer
-su zezin -c "mkdir .config/gitstuff/straw-viewer"
-su zezin -c "doas apk add perl"
-su zezin -c "git clone https://github.com/trizen/straw-viewer .config/gitstuff/straw-viewer"
-su zezin -c "cd .config/gitstuff/straw-viewer"
-su zezin -c "perl Build.PL"
-su zezin -c "./Build installdeps"
-su zezin -c "./Build install"
-su zezin -c "cd /home/zezin"
-
-#oh-my-zsh
-su zezin -c "curl -Lo install.sh https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
-su zezin -c "ZSH=~/.config/oh-my-zsh RUNZSH='no' ./install.sh --keep-zshrc"
-su zezin -c "git clone https://github.com/zsh-users/zsh-syntax-highlighting.git .config/oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-su zezin -c "git clone https://github.com/softmoth/zsh-vim-mode .config/oh-my-zsh/custom/plugins/zsh-vim-mode"
-#TODO Clean home directory 
-
+[ $1 = "--user" ] && {
+    [[ $(id -u) != 1000 ]] && {
+        printf "Only for 'normal user'.\n" "%s"
+        exit 1
+    }
+    cd /home/zezin
+    mkdir ~/.local
+    mkdir ~/.local/share/
+    mkdir ~/.cache
+    mkdir ~/pix
+    mkdir ~/pix/scrot
+    mkdir ~/dl
+    mkdir ~/code
+    mkdir ~/dox
+    mkdir ~/music
+    mkdir ~/.config
+     
+    # ~/ cleanup
+    mkdir ~/.local/share/task
+    touch ~/.local/share/taskrc
+    mkdir ~/.config/less
+    touch ~/.config/less/lesskey
+    mkdir ~/.config/readline
+    touch ~/.config/readline/inputrc
+    mkdir ~/.local/share/zsh/
+    touch ~/.local/share/zsh/history
+    mkdir ~/.local/share/gnupg
+    mkdir ~/.local/share/pass 
+    
+    #Configs
+    git clone https://github.com/MrExcaliburBr/voidrice
+    mv voidrice/zshrc .
+    doas mv voidrice/xinitrc /etc/X11/xinit/
+    mv zshrc .zshrc
+    mv voidrice/config/* .config
+    
+    #Goodies
+    doas apk add sxiv nnn youtube-dl cmus xrandr dunst sxhkd xbacklight tlp unclutter-xfixes slock scrot tmux task transmission weechat python3 zathura zathura-pdf-poppler mpv fzf gnupg pass newsboat tuir htop redshift 
+    doas rc-update add dbus
+    dbus-uuidgen > /var/lib/dbus/machine-id
+    
+    #My scripts
+    mkdir code/scripts
+    git clone https://github.com/MrExcaliburBr/scripts code/scripts
+    
+    #Suckless software 
+    ##Dependencies
+    doas apk add tcc libx11-dev libxft-dev libxinerama-dev ncurses dbus-x11 freetype-dev gcc g++
+    doas apk del gcc g++
+    
+    ##Directories
+    rm -rf .config/suckless/*
+    mkdir .config/suckless/dwm 
+    mkdir .config/suckless/st
+    mkdir .config/suckless/dmenu
+    
+    ##dwm
+    git clone https://github.com/MrExcaliburBr/my-dwm .config/suckless/dwm
+    cd .config/suckless/dwm
+    doas make install CC=tcc
+    cd /home/zezin
+    
+    ##st
+    git clone https://github.com/MrExcaliburBr/my-st .config/suckless/st
+    cd .config/suckless/st
+    doas make install CC=tcc
+    cd /home/zezin
+    
+    ##dmenu 
+    git clone https://github.com/MrExcaliburBr/my-dmenu .config/suckless/dmenu
+    cd .config/suckless/dmenu
+    doas make install CC=tcc
+    cd /home/zezin
+    
+    #tremc (transmission client)
+    mkdir .config/gitstuff
+    mkdir .config/gitstuff/tremc
+    git clone https://github.com/tremc/tremc .config/gitstuff/tremc
+    cd tremc
+    doas make install
+    cd /home/zezin
+    
+    #straw-viewer
+    mkdir .config/gitstuff/straw-viewer
+    doas apk add perl
+    git clone https://github.com/trizen/straw-viewer .config/gitstuff/straw-viewer
+    cd .config/gitstuff/straw-viewer
+    perl Build.PL
+    ./Build installdeps
+    ./Build install
+    cd /home/zezin
+    
+    #oh-my-zsh
+    curl -Lo install.sh https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    ZSH=~/.config/oh-my-zsh RUNZSH='no' ./install.sh --keep-zshrc
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git .config/oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    git clone https://github.com/softmoth/zsh-vim-mode .config/oh-my-zsh/custom/plugins/zsh-vim-mode
+    #TODO Clean home directory 
+    }
