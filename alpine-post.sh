@@ -12,10 +12,12 @@
     sed -i 's/#http/http/g' /etc/apk/repositories
     apk update
     
-    setup-xorg-minimal
+    setup-xorg-base
     #Install base packages 
     apk add git patch curl doas dbus less wpa_supplicant networkmanager make 
-    
+    doas rc-update add dbus
+    dbus-uuidgen > /var/lib/dbus/machine-id
+
     #Libs
     apk add xf86-input-evdev xf86-input-synaptics xf86-video-fbdev xf86-video-intel mesa mesa-dri-intel 
     
@@ -88,8 +90,6 @@
     
     #Goodies
     doas apk add sxiv nnn youtube-dl cmus xrandr dunst sxhkd xbacklight tlp unclutter-xfixes slock scrot tmux task transmission weechat python3 zathura zathura-pdf-poppler mpv fzf gnupg pass newsboat tuir htop redshift 
-    doas rc-update add dbus
-    dbus-uuidgen > /var/lib/dbus/machine-id
     
     #My scripts
     mkdir code/scripts
@@ -98,7 +98,6 @@
     #Suckless software 
     ##Dependencies
     doas apk add tcc libx11-dev libxft-dev libxinerama-dev ncurses dbus-x11 freetype-dev gcc g++
-    doas apk del gcc g++
     
     ##Directories
     rm -rf .config/suckless/*
@@ -109,43 +108,47 @@
     ##dwm
     git clone https://github.com/MrExcaliburBr/my-dwm .config/suckless/dwm
     cd .config/suckless/dwm
-    doas make install CC=tcc
+    doas make install
     cd /home/zezin
     
     ##st
     git clone https://github.com/MrExcaliburBr/my-st .config/suckless/st
     cd .config/suckless/st
-    doas make install CC=tcc
+    doas make install
     cd /home/zezin
     
     ##dmenu 
     git clone https://github.com/MrExcaliburBr/my-dmenu .config/suckless/dmenu
     cd .config/suckless/dmenu
-    doas make install CC=tcc
-    cd /home/zezin
-    
-    #tremc (transmission client)
-    mkdir .config/gitstuff
-    mkdir .config/gitstuff/tremc
-    git clone https://github.com/tremc/tremc .config/gitstuff/tremc
-    cd tremc
     doas make install
     cd /home/zezin
     
-    #straw-viewer
-    mkdir .config/gitstuff/straw-viewer
-    doas apk add perl
-    git clone https://github.com/trizen/straw-viewer .config/gitstuff/straw-viewer
-    cd .config/gitstuff/straw-viewer
-    perl Build.PL
-    ./Build installdeps
-    ./Build install
-    cd /home/zezin
+    doas apk del gcc g++
+
+   # #tremc (transmission client)
+   # mkdir .config/gitstuff
+   # mkdir .config/gitstuff/tremc
+   # git clone https://github.com/tremc/tremc .config/gitstuff/tremc
+   # cd tremc
+   # doas make install
+   # cd /home/zezin
+   # 
+   # #straw-viewer
+   # mkdir .config/gitstuff/straw-viewer
+   # doas apk add perl
+   # git clone https://github.com/trizen/straw-viewer .config/gitstuff/straw-viewer
+   # cd .config/gitstuff/straw-viewer
+   # perl Build.PL
+   # ./Build installdeps
+   # ./Build install
+   # cd /home/zezin
     
     #oh-my-zsh
     curl -Lo install.sh https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-    ZSH=~/.config/oh-my-zsh RUNZSH='no' ./install.sh --keep-zshrc
+    doas ZSH=~/.config/oh-my-zsh RUNZSH='no' ./install.sh --keep-zshrc
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git .config/oh-my-zsh/custom/plugins/zsh-syntax-highlighting
     git clone https://github.com/softmoth/zsh-vim-mode .config/oh-my-zsh/custom/plugins/zsh-vim-mode
     #TODO Clean home directory 
+    apk upgrade --update-cache --available
+
     }
