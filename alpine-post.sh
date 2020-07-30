@@ -14,7 +14,7 @@
     
     setup-xorg-base
     #Install base packages 
-    apk add git patch curl doas dbus less wpa_supplicant networkmanager make 
+    apk add git patch curl doas dbus less wpa_supplicant networkmanager make xsetroot
     doas rc-update add dbus
     dbus-uuidgen > /var/lib/dbus/machine-id
 
@@ -89,7 +89,7 @@
     mv voidrice/config/* .config
     
     #Goodies
-    doas apk add sxiv nnn youtube-dl cmus xrandr dunst sxhkd xbacklight tlp unclutter-xfixes slock scrot tmux task transmission weechat python3 zathura zathura-pdf-poppler mpv fzf gnupg pass newsboat tuir htop redshift bash
+    doas apk add sxiv nnn youtube-dl cmus xrandr dunst sxhkd xbacklight tlp unclutter-xfixes slock scrot tmux task transmission weechat python3 zathura zathura-pdf-poppler mpv fzf gnupg pass newsboat tuir htop redshift 
     
     #My scripts
     mkdir code/scripts
@@ -101,47 +101,27 @@
     
     ##Directories
     rm -rf .config/suckless/*
-    mkdir .config/suckless/dwm-flexipatch
-    mkdir .config/suckless/st-flexipatch
+    mkdir .config/suckless/dwm
+    mkdir .config/suckless/st
     mkdir .config/suckless/dmenu
     
     ##dwm
-    git clone https://github.com/bakkeby/flexipatch-finalizer
-    mv flexipatch-finalizer/flexipatch-finalizer.sh .
-    rm -rf flexipatch-finalizer
-    git clone https://github.com/bakkeby/dwm-flexipatch .config/suckless/dwm-flexipatch
-    mv alpine-post/patches/dwm-patches alpine-post/patches/patches.def.h 
-    mv alpine-post/patches/patches.def.h .config/suckless/dwm-flexipatch
+    git clone https://github.com/MrExcaliburBr/my-dwm
     cd .config/suckless/dwm-flexipatch
-    doas make install
-    cd /home/zezin
-    ./flexipatch-finalizer.sh -r -d .config/suckless/dwm-flexipatch -o .config/suckless/dwm
-    mv alpine-post/patches/dwm-diff.diff .config/suckless/dwm
-    cd .config/suckless/dwm
-    doas make install 
-    patch < dwm-diff.diff
     doas make install
     cd /home/zezin
     
     ##st
-    git clone https://github.com/bakkeby/st-flexipatch .config/suckless/st-flexipatch
-    mv alpine-post/patches/st-patches alpine-post/patches/patches.def.h 
-    mv alpine-post/patches/patches.def.h .config/suckless/st-flexipatch
-    cd .config/suckless/st-flexipatch
-    doas make install
-    cd /home/zezin
-    ./flexipatch-finalizer.sh -r -d .config/suckless/st-flexipatch -o .config/suckless/st
-    mv alpine-post/patches/st-diff.diff .config/suckless/st
-    cd .config/suckless/dwm
-    doas make install
-    patch < st-diff.diff
+    git clone https://github.com/MrExcaliburBr/my-dwm
+    cd .config/suckless/dwm-flexipatch
     doas make install
     cd /home/zezin
     
     ##dmenu 
     git clone https://git.suckless.org/dmenu .config/suckless/dmenu
-    mv alpine-post/patches/dmenu-diff.diff
+    mv alpine-post/patches/dmenu-diff.diff .config/suckless/dmenu
     cd .config/suckless/dmenu
+    patch < dmenu-diff.diff
     doas make install
     cd /home/zezin
     
