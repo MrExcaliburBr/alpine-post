@@ -89,7 +89,7 @@
     mv voidrice/config/* .config
     
     #Goodies
-    doas apk add sxiv nnn youtube-dl cmus xrandr dunst sxhkd xbacklight tlp unclutter-xfixes slock scrot tmux task transmission weechat python3 zathura zathura-pdf-poppler mpv fzf gnupg pass newsboat tuir htop redshift 
+    doas apk add cargo sxiv nnn youtube-dl cmus xrandr dunst sxhkd xbacklight tlp unclutter-xfixes slock scrot tmux task weechat python3 zathura zathura-pdf-poppler mpv fzf gnupg pass newsboat tuir htop redshift ttf-dejavu vimb ripgrep fd
     
     #My scripts
     mkdir code/scripts
@@ -127,24 +127,6 @@
     
     doas apk del gcc g++
 
-   # #tremc (transmission client)
-   # mkdir .config/gitstuff
-   # mkdir .config/gitstuff/tremc
-   # git clone https://github.com/tremc/tremc .config/gitstuff/tremc
-   # cd tremc
-   # doas make install
-   # cd /home/zezin
-   # 
-   # #straw-viewer
-   # mkdir .config/gitstuff/straw-viewer
-   # doas apk add perl
-   # git clone https://github.com/trizen/straw-viewer .config/gitstuff/straw-viewer
-   # cd .config/gitstuff/straw-viewer
-   # perl Build.PL
-   # ./Build installdeps
-   # ./Build install
-   # cd /home/zezin
-    
    # #oh-my-zsh
    # curl -Lo install.sh https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
    # doas ZSH=~/.config/oh-my-zsh RUNZSH='no' ./install.sh --keep-zshrc
