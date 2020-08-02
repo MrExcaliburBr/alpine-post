@@ -49,8 +49,6 @@
     mv alpine-post /home/zezin/
 }
 
-#Nescessary directories
-#TODO tirar os su zezin -c e dividir o script --root e --user (talvez, depois desse teste )
 
 [ $1 = "--user" ] && {
     [[ $(id -u) != 1000 ]] && {
@@ -98,7 +96,8 @@
     #Suckless software 
     ##Dependencies
     doas apk add tcc libx11-dev libxft-dev libxinerama-dev ncurses dbus-x11 freetype-dev gcc g++
-    
+   #TODO fix tcc linking problem  
+
     ##Directories
     rm -rf .config/suckless/*
     mkdir .config/suckless/dwm
