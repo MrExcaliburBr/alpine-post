@@ -87,7 +87,7 @@
     mv voidrice/config/* .config
     
     #Goodies
-    doas apk add cargo sxiv nnn youtube-dl cmus xrandr dunst sxhkd xbacklight tlp unclutter-xfixes slock scrot tmux task weechat python3 zathura zathura-pdf-poppler mpv fzf gnupg pass newsboat tuir htop redshift ttf-dejavu vimb ripgrep fd terminus-font go
+    doas apk add cargo sxiv nnn youtube-dl cmus xrandr dunst sxhkd xbacklight tlp unclutter-xfixes slock scrot tmux task weechat python3 zathura zathura-pdf-poppler mpv fzf gnupg pass newsboat tuir htop redshift ttf-dejavu vimb ripgrep fd terminus-font go zsh
     
     #My scripts
     mkdir code/scripts
@@ -137,12 +137,13 @@
     GO111MODULES=on go get -u github.com/Bios-Marcel/cordless
     doas cp go/bin/cordless /usr/local/bin
     
-   # #oh-my-zsh
-   # curl -Lo install.sh https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-   # doas ZSH=~/.config/oh-my-zsh RUNZSH='no' ./install.sh --keep-zshrc
-   # git clone https://github.com/zsh-users/zsh-syntax-highlighting.git .config/oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-   # git clone https://github.com/softmoth/zsh-vim-mode .config/oh-my-zsh/custom/plugins/zsh-vim-mode
-   # #TODO Clean home directory 
+    #oh-my-zsh
+    curl -Lo install.sh https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    chmod +x install.sh
+   ZSH=~/.config/oh-my-zsh RUNZSH='no' ./install.sh --keep-zshrc
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git .config/oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    git clone https://github.com/softmoth/zsh-vim-mode .config/oh-my-zsh/custom/plugins/zsh-vim-mode
+    #TODO Clean home directory 
     doas apk upgrade --update-cache --available
     rm -rf voidrice
     }
