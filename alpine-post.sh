@@ -87,7 +87,7 @@
     mv voidrice/config/* .config
     
     #Goodies
-    doas apk add cargo sxiv nnn youtube-dl cmus xrandr dunst sxhkd xbacklight tlp unclutter-xfixes slock scrot tmux task weechat python3 zathura zathura-pdf-poppler mpv fzf gnupg pass newsboat tuir htop redshift ttf-dejavu vimb ripgrep fd
+    doas apk add cargo sxiv nnn youtube-dl cmus xrandr dunst sxhkd xbacklight tlp unclutter-xfixes slock scrot tmux task weechat python3 zathura zathura-pdf-poppler mpv fzf gnupg pass newsboat tuir htop redshift ttf-dejavu vimb ripgrep fd terminus-font
     
     #My scripts
     mkdir code/scripts
@@ -105,14 +105,14 @@
     mkdir .config/suckless/dmenu
     
     ##dwm
-    git clone https://github.com/MrExcaliburBr/my-dwm
-    cd .config/suckless/dwm-flexipatch
+    git clone https://github.com/MrExcaliburBr/my-dwm .config/suckless/dwm
+    cd .config/suckless/dwm
     doas make install
     cd /home/zezin
     
     ##st
-    git clone https://github.com/MrExcaliburBr/my-dwm
-    cd .config/suckless/dwm-flexipatch
+    git clone https://github.com/MrExcaliburBr/my-st .config/suckless/st
+    cd .config/suckless/st
     doas make install
     cd /home/zezin
     
@@ -124,8 +124,6 @@
     doas make install
     cd /home/zezin
     
-    doas apk del gcc g++
-
    # #oh-my-zsh
    # curl -Lo install.sh https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
    # doas ZSH=~/.config/oh-my-zsh RUNZSH='no' ./install.sh --keep-zshrc
