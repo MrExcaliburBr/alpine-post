@@ -87,7 +87,7 @@
     mv voidrice/config/* .config
     
     #Goodies
-    doas apk add cargo sxiv nnn youtube-dl cmus xrandr dunst sxhkd xbacklight tlp unclutter-xfixes slock scrot tmux task weechat python3 zathura zathura-pdf-poppler mpv fzf gnupg pass newsboat tuir htop redshift ttf-dejavu vimb ripgrep fd terminus-font
+    doas apk add cargo sxiv nnn youtube-dl cmus xrandr dunst sxhkd xbacklight tlp unclutter-xfixes slock scrot tmux task weechat python3 zathura zathura-pdf-poppler mpv fzf gnupg pass newsboat tuir htop redshift ttf-dejavu vimb ripgrep fd terminus-font go
     
     #My scripts
     mkdir code/scripts
@@ -123,6 +123,19 @@
     patch < dmenu-diff.diff
     doas make install
     cd /home/zezin
+
+    #cordless
+    mkdir go
+    mkdir go/src
+    mkdir go/src/github.com
+    mkdir go/src/github.com/google
+    git clone https://github.com/google/go-github go/src/github.com/google
+    cd go/src/github.com/google
+    mkdir v29
+    mv github v29
+    cd /home/zezin/
+    GO111MODULES=on go get -u github.com/Bios-Marcel/cordless
+    doas cp go/bin/cordless /usr/local/bin
     
    # #oh-my-zsh
    # curl -Lo install.sh https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
