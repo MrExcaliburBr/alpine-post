@@ -87,11 +87,22 @@
     mv voidrice/config/* .config
     
     #Goodies
-    doas apk add cargo sxiv nnn youtube-dl cmus xrandr dunst sxhkd xbacklight tlp unclutter-xfixes slock scrot tmux task weechat python3 zathura zathura-pdf-poppler mpv fzf gnupg pass newsboat tuir htop redshift ttf-dejavu vimb ripgrep fd terminus-font go zsh
+    doas apk add cargo sxiv nnn youtube-dl cmus xrandr dunst sxhkd xbacklight tlp unclutter-xfixes slock scrot tmux task weechat python3 zathura zathura-pdf-poppler mpv fzf gnupg pass newsboat tuir htop redshift ttf-dejavu vimb ripgrep fd terminus-font go zsh nvim
     
     #My scripts
     mkdir code/scripts
     git clone https://github.com/MrExcaliburBr/scripts code/scripts
+    
+    #Termux
+    mkdir .config/tmux/plugins
+    mkdir .config/tmux/plugins/tpm
+    git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
+    
+
+    #Nvim
+    sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    nvim -es -u init.vim -i NONE -c "PlugInstall" -c "qa"
     
     #Suckless software 
     ##Dependencies
@@ -130,7 +141,7 @@
     mkdir go/src/github.com
     mkdir go/src/github.com/google
     git clone https://github.com/google/go-github go/src/github.com/google
-    cd go/src/github.com/google
+    cd go/src/github.com/google/go-github
     mkdir v29
     mv github v29
     cd /home/zezin/
