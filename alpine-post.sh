@@ -87,8 +87,10 @@
     mv voidrice/config/* .config
     
     #Goodies
-    doas apk add cargo sxiv nnn youtube-dl cmus xrandr dunst sxhkd xbacklight tlp unclutter-xfixes slock scrot tmux task weechat python3 zathura zathura-pdf-poppler mpv fzf gnupg pass newsboat tuir htop redshift ttf-dejavu vimb ripgrep fd terminus-font go zsh neovim nodejs
+    doas apk add cargo sxiv nnn youtube-dl cmus xrandr dunst sxhkd xbacklight tlp unclutter-xfixes slock scrot tmux task weechat python3 zathura zathura-pdf-poppler mpv fzf gnupg pass newsboat tuir htop redshift ttf-dejavu ripgrep fd terminus-font go zsh neovim nodejs
     
+    #TODO qutebrowser virtualenv
+
     #My scripts
     mkdir code/scripts
     git clone https://github.com/MrExcaliburBr/scripts code/scripts
@@ -102,7 +104,7 @@
     #Nvim
     sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    nvim -c "PlugInstall" -c "call clap#installer#build_maple()" -c "qa"
+    nvim -c "PlugInstall" -c "qa"
     
     
     #Suckless software 
