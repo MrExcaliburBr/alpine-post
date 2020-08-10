@@ -27,7 +27,7 @@
     rc-service alsa start
     
     #Extra stuff for VMs
-    read -p Are you in a VM? [y/N] virt
+    read -p "Are you in a VM? [y/N]" virt
     case $virt in
         n|N ) rc-update delete dhcpcd default
 	      rc-update add NetworkManager
@@ -87,7 +87,7 @@
     mv voidrice/config/* .config
     
     #Goodies
-    doas apk add cargo sxiv nnn youtube-dl cmus xrandr dunst sxhkd xbacklight tlp unclutter-xfixes slock scrot tmux task weechat python3 zathura zathura-pdf-poppler mpv fzf gnupg pass newsboat tuir htop redshift ttf-dejavu ripgrep fd terminus-font go zsh neovim nodejs
+    doas apk add sxiv nnn youtube-dl cmus xrandr dunst sxhkd xbacklight tlp unclutter-xfixes slock scrot tmux task weechat python3 zathura zathura-pdf-poppler mpv fzf gnupg pass newsboat tuir htop redshift ttf-dejavu ripgrep fd zsh neovim nodejs go
     
     #TODO qutebrowser virtualenv
 
